@@ -20,5 +20,20 @@ export class ApplicationsService {
   });
   return this.applicationRepository.save(application);
 }
+  async updateStatus(
+  application_id: number,
+  status: string,
+): Promise<Application> {
+  const application = await this.applicationRepository.findOne({
+    where: { application_id },
+  });
+
+  if (!application) {
+    throw new Error('Application not found');
+  }
+
+  application.status = status;
+  return this.applicationRepository.save(application);
+}
 
 }
