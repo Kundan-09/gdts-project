@@ -1,22 +1,22 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('applications')
+@UseGuards(JwtAuthGuard)
 export class ApplicationsController {
   constructor(
     private readonly applicationsService: ApplicationsService,
   ) {}
 
   @Post()
-  createApplication(@Body() body: CreateApplicationDto) {
-    const dummyUser = { id: 1 } as any; // TEMPORARY
-    return this.applicationsService.createApplication(body, dummyUser);
+  createApplication(@Body() dto: CreateApplicationDto, @Req() req) {
+    return this.applicationsService.createApplication(dto, req.user);
   }
 
   @Get()
-  getMyApplications() {
-    const dummyUserId = 1; // TEMPORARY
-    return this.applicationsService.getMyApplications(dummyUserId);
+  getMyApplications(@Req() req) {
+    return this.applicationsService.getMyApplications(req.user.userId);
   }
 }
