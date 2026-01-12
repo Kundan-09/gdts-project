@@ -5,8 +5,9 @@ import {
   ManyToOne,
   CreateDateColumn,
 } from 'typeorm';
-import { Application } from '../applications/application.entity';
-import { User } from '../users/user.entity';
+import { Application } from '../applications/entities/application.entity';
+import { User } from '../users/entities/user.entity';
+
 
 @Entity('approval_logs')
 export class ApprovalLog {

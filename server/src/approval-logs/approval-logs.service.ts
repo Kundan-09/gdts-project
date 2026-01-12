@@ -9,23 +9,16 @@ export class ApprovalLogsService {
     @InjectRepository(ApprovalLog)
     private readonly approvalLogRepository: Repository<ApprovalLog>,
   ) {}
- async createLog(
-  applicationId: number,
-  actionById: number,
-  previousStatus: string,
-  newStatus: string,
-  remark?: string,
-): Promise<ApprovalLog> {
-  const log = this.approvalLogRepository.create({
-    application: { id: applicationId } as any,
-    actionBy: { id: actionById } as any,
-    previousStatus,
-    newStatus,
-    remark,
-  });
 
-  return this.approvalLogRepository.save(log);
-}
-
-
+  async getLogsByApplication(applicationId: number): Promise<ApprovalLog[]> {
+    return this.approvalLogRepository.find({
+      where: {
+        application: { id: applicationId } as any,
+      },
+      relations: ['actionBy'],
+      order: {
+        actionAt: 'ASC',
+      },
+    });
+  }
 }

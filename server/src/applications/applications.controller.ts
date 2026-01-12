@@ -1,19 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
-import { Body, Post } from '@nestjs/common';
-@Controller('applications')
-export class ApplicationsController {
-  constructor(private readonly applicationsService: ApplicationsService) {}
+import { CreateApplicationDto } from './dto/create-application.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-  @Get()
-  getAllApplications() {
-    return this.applicationsService.findAll();
-  }
-  
+@Controller('applications')
+@UseGuards(JwtAuthGuard)
+export class ApplicationsController {
+  constructor(
+    private readonly applicationsService: ApplicationsService,
+  ) {}
 
   @Post()
-  createApplication(@Body() body: any) {
-    return this.applicationsService.createApplication(body);
+  createApplication(@Body() dto: CreateApplicationDto, @Req() req) {
+    return this.applicationsService.createApplication(dto, req.user);
   }
 
+  @Get()
+  getMyApplications(@Req() req) {
+    return this.applicationsService.getMyApplications(req.user.userId);
+  }
 }
