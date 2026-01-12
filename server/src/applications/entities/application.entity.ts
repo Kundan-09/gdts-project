@@ -3,12 +3,16 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  OneToMany,
   JoinColumn,
 } from 'typeorm';
+
 import { User } from '../../users/entities/user.entity';
+import { ApprovalLog } from '../../approval-logs/approval-log.entity';
 
 @Entity('applications')
 export class Application {
+
   @PrimaryGeneratedColumn({ name: 'application_id' })
   applicationId: number;
 
@@ -22,7 +26,7 @@ export class Application {
   currentStage: string;
 
   @Column({ name: 'remarks', type: 'text', nullable: true })
-  remarks: string;
+  remarks: string | null;
 
   @Column({ name: 'delay_reason', type: 'text', nullable: true })
   delayReason: string;
@@ -45,9 +49,12 @@ export class Application {
   })
   lastUpdated: Date;
 
-  /* ---------------- RELATION ---------------- */
+  /* ---------------- RELATIONS ---------------- */
 
   @ManyToOne(() => User, (user) => user.applications)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => ApprovalLog, (log) => log.application)
+  approvalLogs: ApprovalLog[];
 }
