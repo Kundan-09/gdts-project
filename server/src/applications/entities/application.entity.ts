@@ -26,7 +26,7 @@ export class Application {
   currentStage: string;
 
   @Column({ name: 'remarks', type: 'text', nullable: true })
-  remarks: string;
+  remarks: string | null;
 
   @Column({ name: 'delay_reason', type: 'text', nullable: true })
   delayReason: string;

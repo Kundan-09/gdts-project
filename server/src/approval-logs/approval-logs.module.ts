@@ -8,5 +8,6 @@ import { ApprovalLogsController } from './approval-logs.controller';
   imports: [TypeOrmModule.forFeature([ApprovalLog])],
   providers: [ApprovalLogsService],
   controllers: [ApprovalLogsController],
+  exports: [ApprovalLogsService],
 })
 export class ApprovalLogsModule {}
