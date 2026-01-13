@@ -11,28 +11,26 @@ export class ApprovalLogsService {
     private readonly approvalLogRepository: Repository<ApprovalLog>,
   ) {}
 
-  async createLog(dto: CreateApprovalLogDto): Promise<ApprovalLog> {
-    const log: Partial<ApprovalLog> = {
-      application: { applicationId: dto.applicationId } as any,
-      actionBy: { userId: dto.actionByUserId } as any,
-      previousStatus: dto.previousStatus,
-      newStatus: dto.newStatus,
-      remark: dto.remark ?? undefined,
-    };
+  async createLog(dto: CreateApprovalLogDto) {
+  const log = this.approvalLogRepository.create({
+    application: { applicationId: dto.applicationId } as any,
+    officer: { userId: dto.actionByUserId } as any,
+    action: dto.action,
+    remarks: dto.remarks,
+  });
 
-    const createdLog = this.approvalLogRepository.create(log);
-    return this.approvalLogRepository.save(createdLog);
-  }
+  return this.approvalLogRepository.save(log);
+}
 
-  async getLogsByApplication(applicationId: number): Promise<ApprovalLog[]> {
-    return this.approvalLogRepository.find({
-      where: {
-        application: { applicationId } as any,
-      },
-      relations: ['actionBy'],
-      order: {
-        actionAt: 'ASC',
-      },
-    });
-  }
+async getLogsByApplication(applicationId: number) {
+  return this.approvalLogRepository.find({
+    where: {
+      application: { applicationId },
+    },
+    relations: ['officer'],
+    order: {
+      actionDate: 'ASC',
+    },
+  });
+}
 }

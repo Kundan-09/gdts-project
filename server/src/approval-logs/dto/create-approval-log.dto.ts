@@ -1,7 +1,16 @@
+import { IsInt, IsOptional, IsString } from 'class-validator';
+
 export class CreateApprovalLogDto {
+  @IsInt()
   applicationId: number;
+
+  @IsInt()
   actionByUserId: number;
-  previousStatus: string;
-  newStatus: string;
-  remark?: string;
+
+  @IsString()
+  action: string; // APPROVED / REJECTED / FORWARDED
+
+  @IsOptional()
+  @IsString()
+  remarks?: string;
 }

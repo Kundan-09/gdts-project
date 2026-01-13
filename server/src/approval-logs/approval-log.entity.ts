@@ -3,34 +3,31 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  JoinColumn,
   CreateDateColumn,
 } from 'typeorm';
 import { Application } from '../applications/entities/application.entity';
 import { User } from '../users/entities/user.entity';
 
-
 @Entity('approval_logs')
 export class ApprovalLog {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn({ name: 'log_id' })
+  logId: number;
 
-  @ManyToOne(() => Application, (application) => application.approvalLogs, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => Application, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'application_id' })
   application: Application;
 
   @ManyToOne(() => User)
-  actionBy: User;
+  @JoinColumn({ name: 'officer_id' })
+  officer: User;
 
-  @Column()
-  previousStatus: string;
+  @Column({ length: 50, nullable: true })
+  action: string;
 
-  @Column()
-  newStatus: string;
+  @Column({ type: 'text', nullable: true })
+  remarks: string;
 
-  @Column({ nullable: true })
-  remark: string;
-
-  @CreateDateColumn()
-  actionAt: Date;
+  @CreateDateColumn({ name: 'action_date' })
+  actionDate: Date;
 }

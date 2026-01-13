@@ -60,9 +60,8 @@ export class ApplicationsService {
   await this.approvalLogsService.createLog({
     applicationId: application.applicationId,
     actionByUserId: actionBy.userId,
-    previousStatus,
-    newStatus,
-    remark,
+    action: status,        // APPROVED / REJECTED / FORWARDED
+    remarks: remark,
   });
 
   return updatedApplication;
