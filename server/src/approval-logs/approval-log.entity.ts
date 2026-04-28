@@ -12,22 +12,22 @@ import { User } from '../users/entities/user.entity';
 @Entity('approval_logs')
 export class ApprovalLog {
   @PrimaryGeneratedColumn({ name: 'log_id' })
-  logId: number;
+  logId!: number;
 
   @ManyToOne(() => Application, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'application_id' })
-  application: Application;
+  application!: Application;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'officer_id' })
-  officer: User;
+  officer!: User;
 
   @Column({ length: 50, nullable: true })
-  action: string;
+  action!: string;
 
   @Column({ type: 'text', nullable: true })
-  remarks: string;
+  remarks!: string;
 
   @CreateDateColumn({ name: 'action_date' })
-  actionDate: Date;
+  actionDate!: Date;
 }
