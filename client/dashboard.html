@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Student Dashboard</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-  <h2>My Applications</h2>
+  <!-- 🔵 NAVBAR -->
+  <div class="navbar">
+    <div class="logo">GDTS Portal</div>
+    <div class="nav-right">
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
 
-  <button onclick="logout()">Logout</button>
+  <div class="main">
 
-  <div id="applications">Loading...</div>
+    <!-- 📌 SIDEBAR -->
+    <div class="sidebar">
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="dashboard.html">My Applications</a>
+      <a href="new-application.html">New Application</a>
+    </div>
+
+    <!-- 📦 CONTENT -->
+    <div class="content">
+      <div class="content-header">
+        <h2>My Applications</h2>
+        <button class="new-btn" onclick="goToNew()">+ New Application</button>
+      </div>
+
+      <div id="applications"></div>
+    </div>
+
+  </div>
 
   <script src="js/api.js"></script>
   <script src="js/dashboard.js"></script>
 
 </body>
+
 </html>
